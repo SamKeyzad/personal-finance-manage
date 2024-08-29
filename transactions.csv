@@ -1,0 +1,27 @@
+import csv
+
+def save_transactions_to_csv(file_name="transactions.csv"):
+    with open(file_name, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Type", "Amount", "Date", "Category", "Description"])
+        for transaction in transactions:
+            t_type = "Income" if isinstance(transaction, Income) else "Expense"
+            writer.writerow([t_type, transaction.amount, transaction.date, transaction.category, transaction.description])
+
+def load_transactions_from_csv(file_name="transactions.csv"):
+    transactions.clear()  # Clear existing transactions
+    with open(file_name, mode='r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            t_type = row["Type"]
+            amount = float(row["Amount"])
+            date = row["Date"]
+            category = row["Category"]
+            description = row["Description"]
+            if t_type == "Income":
+                transactions.append(Income(amount, date, category, description))
+            elif t_type == "Expense":
+                transactions.append(Expense(amount, date, category, description))
+
+# Call load_transactions_from_csv() when the program starts
+# Call save_transactions_to_csv() whenever a transaction is added or removed
